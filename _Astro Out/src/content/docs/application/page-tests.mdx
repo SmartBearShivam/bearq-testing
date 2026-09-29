@@ -1,0 +1,16 @@
+---
+title: "Page Tests"
+description: "Page tests are a distinct test type in BearQ that connect each test directly to a page in the Application Model. Unlike regression tests, which verify that a..."
+paligoId: "3681624"
+---
+
+Page tests are a distinct test type in BearQ that connect each test directly to a page in the Application Model. Unlike regression tests, which verify that a previously passing behavior continues to work, page tests are scoped to a specific page and focus on verifying its elements. When BearQ runs a page test, it records which elements it interacted with and displays a coverage overlay on the page screenshot in the Application Model. The overlay shows you which elements are covered and which are not, so you can identify gaps at a glance. Each page in the Application Model can have one page test. BearQ displays a page test icon next to the test name in the test list and on the test detail page.
+
+## Coverage Overlay
+
+The coverage overlay appears on page screenshots in the Application Model. It uses color-coded boxes to show the coverage state of each detected element on the page. The overlay includes the following indicators:
+
+- **Green:** The element has coverage. BearQ verified this element in the latest execution of the page test.
+- **Red:** The element is not covered. BearQ detected this element on the page, but the page test does not verify it.
+
+A legend beneath each screenshot identifies the color codes. To see the full coverage view for a page, select the screenshot to expand it.

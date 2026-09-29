@@ -1,0 +1,48 @@
+---
+title: "Multiple Environments"
+description: "An environment defines where and how BearQ runs your tests. Each environment can have its own URL, authentication method, and user credentials, so BearQ can ..."
+paligoId: "3816827"
+---
+
+An environment defines where and how BearQ runs your tests. Each environment can have its own URL, authentication method, and user credentials, so BearQ can sign in and test the right instance of your application.
+
+You can create multiple environments in a workspace. This lets you test the same application in different places or as different users without changing your tests.
+
+## Why use multiple environments
+
+Multiple environments allow a single set of tests to cover several targets. Common reasons to create more than one environment include:
+
+- **Development, staging, and production.** Point each environment at a different deployment of your application, so you can run the same tests against each stage of your release process.
+- **Different user roles.** Give each environment a different set of user credentials, so you can test how your application behaves for an administrator, a standard user, or a read-only user.
+
+Because each environment has its own URL, authentication method, and credentials, you maintain your tests once and reuse them across all environments.
+
+## The default environment
+
+Every workspace has a default environment. When you create your first environment, BearQ sets it as the default. Tests run against the default environment unless you choose a different one for a specific run.
+
+The default environment keeps routine testing simple. You do not select an environment every time. BearQ uses the default until you decide otherwise.
+
+## Run a test against a specific environment
+
+When a workspace has more than one environment, you can run a test against a specific environment for a single run, without changing the default. This is a one-off override that applies only to that run.
+
+This is useful when you want to confirm behavior in one environment against another. For example, if you find a bug in staging, you can run the same test in production to see whether it reproduces there.
+
+**Run a single test against a specific environment**
+
+1. On the Tests page, open the test you want to run.
+2. Select the arrow next to **Run**, then choose the environment to run against.
+3. Run the test. BearQ runs it against the environment you selected and leaves the default environment unchanged.
+
+## Change the default environment
+
+You can change which environment is the default at any time. After you change it, tests run against the new default unless you override the environment for a specific run.
+
+1. Open your workspace environment settings.
+2. Locate the environment you want to make the default.
+3. Set it as the default environment.
+
+## Run against an environment through the API
+
+The BearQ public application programming interface (API) also supports choosing an environment. When you create a Tester task, you can include an optional `environment` field with the environment name or URL. If you omit it, BearQ uses the workspace default. For details, see the BearQ Public API reference.

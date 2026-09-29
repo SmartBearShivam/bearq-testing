@@ -1,0 +1,38 @@
+---
+title: "Test Status"
+description: "uses a two-tier status system, one at the overall test level and one at the individual run level."
+paligoId: "3554306"
+---
+
+uses a two-tier status system, one at the overall test level and one at the individual run level.
+
+## Test status (overall)
+
+This is the summary status shown on the Test List Page and Test Detail Page sidebar. It reflects the most recent valid run, automatically skipping any Cancelled or Error runs.
+
+| Status | Description |
+| --- | --- |
+| Running | A test task is currently running, and no results are available yet. |
+| Passing | The last valid run completed successfully with no step modifications. |
+| Failing | The last valid run completed but failed. The test found a problem or was unable to complete its steps. |
+| Not Run | The test has never executed, and no results have been generated yet. |
+
+:::note
+If a test's last three runs were Passed, then Error, then Canceled, the displayed status is still Passing. BearQ skips Error and Canceled runs and uses the most recent valid result.
+:::
+
+## Task run status (per-execution)
+
+This status is shown on each individual row in the Recent Test Runs table on the Test Detail Page. It reflects the raw output of every run, including those that did not produce a result.
+
+| Status | Description |
+| --- | --- |
+| Running | The task is currently pending or actively executing. |
+| Cancelled | The run was stopped by the user or the system before producing a result. |
+| Error | The task encountered an infrastructure failure, such as an ACU limit or system crash, before the session could produce any result. The test never ran to completion. |
+| Passed | The run completed and the test succeeded. |
+| Failed | The run completed, but the test failed. A bug or unexpected behavior was detected. |
+
+:::note[Important]
+Error and Failed are distinct statuses. Error means the infrastructure failed before the test could run. Failed means the test ran fully, but the application did not behave as expected.
+:::

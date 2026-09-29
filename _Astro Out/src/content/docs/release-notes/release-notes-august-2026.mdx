@@ -1,0 +1,37 @@
+---
+title: "Release Notes - August 2026"
+description: "Organize your tests with tags. Create and manage tags on a dedicated tag management page, and add tags to a test inline from the Test Details page. The Tests..."
+paligoId: "3813121"
+---
+
+## What's New
+
+**Tags**
+
+Organize your tests with tags. Create and manage tags on a dedicated tag management page, and add tags to a test inline from the Test Details page. The Tests table now includes a tags column and a tag filter, so you can quickly find tagged tests. You can run every test that carries a tag and reference tags in QA Lead chats. Run by tag is also available through the public API. To learn more about this, see [Running Tests by Tag](/tests/running-tests-by-tag/).
+
+**Adding Custom Fields**
+
+Add your own custom fields to tests. Create, edit, and delete custom fields from the Test Details panel, and search your tests by a custom field. Custom fields are also returned and accepted on the test API.
+
+**Bulk Actions**
+
+Select multiple tests and act on them together from a new bulk actions bar. For example, you can apply a tag to many tests at once.
+
+**Multiple Workspaces**
+
+You can now create, edit, and delete multiple workspaces. Create a workspace for a new application, or clone an existing workspace to keep testing the same application separately from your main one. Cloning lets you choose which environments to bring across. Cloning also copies the application model and tests. Non-admins see the create option disabled, with a pointer to the team's admins.
+
+**Editing for API Endpoints Tests**
+
+You can now edit API endpoint tests directly from the test detail view. Change the test name, description, and type, reorder steps, and edit request metadata such as headers, status codes, and body. To accept multiple status codes, enter them as a comma-separated list, for example, 200, 201.
+
+## Improvements
+
+**Clearer use of Context in tasks**
+
+now consistently makes it clear when a task uses your context. This helps you identify outdated or incorrect context when it affects test authoring or execution.
+
+## Bug Fixes
+
+- Fixed an issue where a bounding box appeared on an empty element or a blank page, and where the bounding box did not match the underlying image.

@@ -1,0 +1,41 @@
+---
+title: "Release Notes - May 2026"
+description: "now connects to external tools and services via Model Context Protocol (MCP) servers. Rather than building individual integrations for each product, treats a..."
+paligoId: "3675988"
+---
+
+## New features
+
+## Connect your tools: External Agent Integration
+
+now connects to external tools and services via Model Context Protocol (MCP) servers. Rather than building individual integrations for each product,  treats any MCP-compatible service as a connectable agent, including Jira, Rovo, Linear, ClickUp, and custom MCP servers. A new **Agents** section in the sidebar lets you connect external agents, select which tools  can access, and monitor connection health. Once connected, the  QA Lead can use those tools during tasks, such as creating bug tickets when a test fails, pulling context from your issue tracker, or checking for existing tickets before reporting a new defect. You can also filter the **Tasks** view by the tools that were invoked to audit what  performed on your behalf. To learn more about this, see [External Agents](/external-agents/).
+
+## BearQ public API and MCP server
+
+is now accessible programmatically through a public API available at `api.bearq.smartbear.com`. You can use the API to trigger tasks, poll status, and retrieve results, enabling CI/CD integrations, IDE workflows, and automation that needs to interact with  outside the UI.  has also been added to the SmartBear MCP server, so teams using Claude Code, Cursor, or other MCP-compatible tools can run regression tests, start exploration, and chat with the QA Lead directly from their development environment. You can manage API keys per workspace in **Settings**. To learn more about this, read BearQ API.
+
+## Improvements
+
+## Task stop works immediately
+
+Clicking **Stop** on a running task now halts it immediately. Previously, the agent completed its current work before stopping, which could take several minutes. The agent now stops at the earliest safe point.
+
+## Report links go directly to results
+
+Links in the Daily Report now navigate directly to the specific result they describe. Clicking a failing test or a failure in the **Failures by Functional Area** breakdown takes you to the exact result.
+
+## QA Lead performance improvements
+
+Two targeted improvements to QA Lead prompt performance are now available: one focused on general task quality and one on accuracy when the QA Lead is asked about test status. Both improvements reduce latency and improve the relevance of QA Lead responses.
+
+## More control over functional area focus
+
+You now have finer control over which functional areas  prioritizes. You can mark areas as ignored to explicitly exclude them from runs, alongside marking areas as focused. There is no limit on how many areas you can focus on at once. To learn more about this, see .
+
+## ACU limit alerts
+
+now sends an email alert when an organization is approaching its ACU limit, giving admins advance notice before work is blocked. You can also track ACU usage by workspace in **Settings**. To learn morer about this, see .
+
+## Improvements to test editing
+
+The **Test Detail** page includes updates to test editing flows, with cleaner options for modifying test case details and steps. Access to chat with the QA Lead agent to update tests has also been streamlined.

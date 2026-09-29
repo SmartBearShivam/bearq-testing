@@ -1,0 +1,17 @@
+---
+title: "Application Model"
+description: "The Application Model is how BearQ builds and maintains an understanding of your application. As the Explorer Agent navigates through the system, it collects..."
+paligoId: "3369163"
+---
+
+The Application Model is how BearQ builds and maintains an understanding of your application. As the Explorer Agent navigates through the system, it collects information about pages and how they connect. It tracks how users move from one page to another and builds a clear view of the application structure.
+
+As BearQ discovers more pages, it organizes them into a structured model. It keeps updating this model as it finds new pages or detects changes in the application. BearQ uses this model as the base for all testing activities. It creates tests based on real user flows between pages and follows these paths during execution. When the application changes, BearQ automatically updates the model and adjusts the tests, so testing stays accurate and up to date without manual effort.
+
+## Test Coverage
+
+Test coverage shows how much of your application BearQ tests. BearQ measures it in two ways: element coverage on each page and page coverage across your whole application. Element coverage is the percentage of elements on a page that have at least one test linked to them. BearQ identifies the testable elements on a page, counts how many have a linked test, and calculates the percentage. Pages that contain no elements are not included in this measure.
+
+Page coverage is the percentage of pages in your Application Model that have at least one test. This is the application-level measure. It helps you understand how broadly your application is tested. Higher page coverage means BearQ validates more areas of your application, and lower page coverage shows which pages still need tests.
+
+The Application Model acts as the foundation for how BearQ understands and tests your application. By continuously learning and updating this model through exploration, BearQ ensures that testing stays aligned with real user behavior and application changes. This allows teams to maintain accurate test coverage, reduce manual effort, and rely on a system that keeps testing relevant as the application evolves.

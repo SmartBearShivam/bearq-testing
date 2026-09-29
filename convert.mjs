@@ -218,10 +218,10 @@ function buildTree(compEl, parentParts) {
   const parts = [...parentParts, seg];
   const slug = uniqueSlug(parts.join('/'));
 
-  const page = { title, uuid: origin, slug, children: [] };
+  const rid = origin ? uuidToId.get(origin) : null;
+  const page = { title, uuid: origin, slug, resourceId: rid || null, children: [] };
   pages.push(page);
   if (origin) slugByUuid.set(origin, slug);
-  const rid = origin ? uuidToId.get(origin) : null;
   if (rid) slugByResourceId.set(rid, slug);
 
   for (const child of elemChildren(compEl)) {
@@ -888,6 +888,7 @@ function renderTopic(page) {
   const desc = firstParaText(section);
   let fm = `---\ntitle: ${escapeYaml(title)}\n`;
   if (desc) fm += `description: ${escapeYaml(desc)}\n`;
+  if (page.resourceId) fm += `paligoId: "${page.resourceId}"\n`;
   fm += '---\n\n';
 
   let md = body.replace(/\n{3,}/g, '\n\n').trim();
@@ -944,14 +945,16 @@ const heroActions = [];
 if (getStarted) heroActions.push(`    - text: Get Started\n      link: /${getStarted.slug}/\n      icon: right-arrow`);
 if (welcome) heroActions.push(`    - text: What's New\n      link: /${welcome.slug}/\n      variant: minimal`);
 
+const actionsBlock = heroActions.length
+  ? `  actions:\n${heroActions.join('\n')}`
+  : `  actions: []`;
 const indexMdx = `---
 title: Zephyr Essential DC Documentation
 description: Plan, create, execute, and track your software testing directly inside Jira with Zephyr Essential.
 template: splash
 hero:
   tagline: Native test management for Jira — plan, execute, and track your testing in one place.
-  actions:
-${heroActions.join('\n')}
+${actionsBlock}
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';

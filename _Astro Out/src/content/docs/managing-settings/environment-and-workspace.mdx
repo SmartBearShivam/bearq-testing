@@ -1,0 +1,45 @@
+---
+title: "Workspace and Environment"
+description: "In , a workspace and an environment describe two different levels of your setup, and understanding the distinction helps you organize your testing without du..."
+paligoId: "3750189"
+---
+
+In , a workspace and an environment describe two different levels of your setup, and understanding the distinction helps you organize your testing without duplicating work. A workspace is where your application model, test cases, and settings live. An environment is a specific deployed instance of that application that your tests run against. You define your tests once in the workspace, then run them against any environment you have configured, because every environment represents the same application at a different deployment stage.
+
+## Workspace
+
+A workspace is your team's home base for a single application. It holds everything  needs to test that application:
+
+- The application model, which is BearQ's representation of your application's structure and pages.
+- All your test cases, including UI tests, API tests, and page tests.
+- Your settings and the schedule that controls when  runs.
+
+Because a workspace is scoped to one application, each application your team tests has its own workspace. Everything sits at this project level, so anything you create or configure in a workspace applies only to that application.
+
+## Environment
+
+An environment is a specific deployed instance of that application. Common examples are development, integration, and production. In some cases, role-based users of your applications may have an additional set of tests, so you can create an environment for that role that has tests associated only with that role. Each environment has its own URL and its own login credentials, but all of them represent the same underlying application, so The same tests generally apply across all environments.
+
+Within a single workspace, you can store several environment configurations side by side and set one as the default. When you start a run, you can use the default environment or override it to target a different environment for that run.  stores each environment's credentials securely, so you can point the same test suite at development one day and production the next without editing your tests.
+
+## How workspaces and environments work together
+
+The separation lets you write your tests once and reuse them everywhere the application is deployed. A typical flow looks like this:
+
+1. Set up a workspace for your application and let  build the application model.
+2. Add the environments your team uses, such as development, integration, and production, each with its own URL and credentials.
+3. Author or generate your test cases in the workspace.
+4. Run those tests against whichever environment you choose, and switch environments whenever you need to validate a different deployment.
+
+Because the tests, model, and settings stay in the workspace, adding a new environment does not require you to recreate anything. You only provide the new environment's URL and credentials.
+
+## Workspace compared to the environment
+
+| Aspect | Workspace | Environment |
+| --- | --- | --- |
+| What it is | Home base for a single application | A specific deployed instance of that application |
+| What it holds | Application model, test cases, settings, and schedule | Its own URL and login credentials |
+| Level | Project level | Instance level |
+| Examples | One workspace per application | Development, integration, and production |
+| Tests | Defined once in the workspace | The same tests apply across every environment |
+| Relationship | Contains one or more environments | Belongs to a single workspace |

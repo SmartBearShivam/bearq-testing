@@ -1,16 +1,15 @@
-# Generated Astro project appears here
+# Documentation site
 
-When you run the migration, a complete, standalone **Astro Starlight** project is
-scaffolded and filled into this folder (pages in `src/content/docs/`, images in
-`src/assets/`, sidebar + title in `astro.config.mjs`).
+This is a standalone [Astro Starlight](https://starlight.astro.build) project,
+generated from a Paligo DocBook export. All content lives as MDX in
+`src/content/docs/` and all images in `src/assets/` (per-page folders, with
+shared images under `_shared/`).
 
-This folder starts empty and is fully regenerated on each run — don't keep
-hand-edits here.
+## Dev commands
 
-After a run:
-
-```bash
-cd "_Astro Out"
-npm install
-npm run dev      # or: npm run build
-```
+| Command           | Action                                       |
+| :---------------- | :------------------------------------------- |
+| `npm install`     | Install dependencies                         |
+| `npm run dev`     | Start local dev server at `localhost:4321`   |
+| `npm run build`   | Build production site to `./dist/`           |
+| `npm run preview` | Preview the production build locally         |
