@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'src/content/docs/**/*.mdx'
+      - '_Astro Out/src/content/docs/**/*.mdx'
 
 jobs:
   sync-to-paligo:
@@ -36,7 +36,7 @@ jobs:
       - name: Detect changed MDX files
         id: changed-files
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'src/content/docs/**/*.mdx' | tr '\n' ',')
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '_Astro Out/src/content/docs/**/*.mdx' | tr '\n' ',')
           echo "files=$CHANGED" >> $GITHUB_OUTPUT
           echo "Changed MDX files: $CHANGED"
 

@@ -925,35 +925,57 @@ console.log(`Pages written: ${written}, skipped: ${skipped}`);
 function findPageBySlug(slug) {
   return pages.find((p) => p.slug === slug);
 }
-const cardCandidates = [
-  { slug: 'get-started', icon: 'rocket', desc: 'Install Zephyr Essential and learn the core concepts.' },
-  { slug: 'writing-tests', icon: 'pencil', desc: 'Create, import, and organize your test cases.' },
-  { slug: 'executing-tests', icon: 'approve-check', desc: 'Run tests ad-hoc or inside test cycles.' },
-  { slug: 'tracking-test-progress', icon: 'bars', desc: 'Track progress with metrics, reports, and boards.' },
-  { slug: 'administration', icon: 'setting', desc: 'Configure and customize Zephyr Essential.' },
-  { slug: 'zephyr-squad-server-rest-api', icon: 'seti:json', desc: 'Automate Zephyr Essential with the REST API.' },
-];
-const cards = cardCandidates
-  .map((c) => ({ ...c, page: findPageBySlug(c.slug) }))
-  .filter((c) => c.page)
-  .map((c) => `  <Card title="${rebrand(c.page.title).replace(/"/g, '')}" icon="${c.icon}">\n    ${c.desc} [Read more](/${c.slug}/)\n  </Card>`)
+// Card candidates: derive from actual top-level pages so the homepage always
+// reflects what was exported, regardless of product name or IA.
+const TOP_LEVEL_ICONS = {
+  'getting-started': 'rocket',
+  'get-started': 'rocket',
+  'overview': 'information',
+  'tests': 'approve-check',
+  'application': 'laptop',
+  'bearq-agents': 'starlight',
+  'agents': 'starlight',
+  'dashboard': 'bars',
+  'reports': 'document',
+  'work': 'list-format',
+  'issues': 'warning',
+  'external-agents': 'puzzle',
+  'integrating': 'add-integration',
+  'managing-settings': 'setting',
+  'administration': 'setting',
+  'context': 'open-book',
+  'api': 'seti:json',
+  'release-notes': 'seti:git',
+};
+function iconForSlug(slug) {
+  for (const [key, icon] of Object.entries(TOP_LEVEL_ICONS)) {
+    if (slug.startsWith(key) || slug.includes(key)) return icon;
+  }
+  return 'document';
+}
+// Use all top-level pages (direct children of the publication root) as cards.
+const topLevelPages = pages.filter((p) => !p.slug.includes('/'));
+const cards = topLevelPages
+  .filter((p) => p.slug !== 'index')
+  .map((p) => `  <Card title="${rebrand(p.title).replace(/"/g, '')}" icon="${iconForSlug(p.slug)}">\n    [Read more](/${p.slug}/)\n  </Card>`)
   .join('\n');
 
-const getStarted = findPageBySlug('get-started');
-const welcome = findPageBySlug('welcome');
+// Hero actions: prefer a getting-started page, then a release notes / what's new page.
+const getStarted = pages.find((p) => p.slug.startsWith('getting-started') || p.slug === 'get-started');
+const releaseNotes = pages.find((p) => p.slug.startsWith('release-notes') || p.slug.startsWith('whats-new'));
 const heroActions = [];
 if (getStarted) heroActions.push(`    - text: Get Started\n      link: /${getStarted.slug}/\n      icon: right-arrow`);
-if (welcome) heroActions.push(`    - text: What's New\n      link: /${welcome.slug}/\n      variant: minimal`);
+if (releaseNotes) heroActions.push(`    - text: What's New\n      link: /${releaseNotes.slug}/\n      variant: minimal`);
 
 const actionsBlock = heroActions.length
   ? `  actions:\n${heroActions.join('\n')}`
   : `  actions: []`;
 const indexMdx = `---
-title: Zephyr Essential DC Documentation
-description: Plan, create, execute, and track your software testing directly inside Jira with Zephyr Essential.
+title: ${SITE_TITLE} Documentation
+description: Documentation for ${SITE_TITLE}.
 template: splash
 hero:
-  tagline: Native test management for Jira — plan, execute, and track your testing in one place.
+  tagline: Welcome to the ${SITE_TITLE} documentation.
 ${actionsBlock}
 ---
 
