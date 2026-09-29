@@ -3,7 +3,7 @@ name: Sync BearQ MDX to Paligo
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - '_Astro Out/src/content/docs/**/*.mdx'
 
@@ -36,7 +36,7 @@ jobs:
       - name: Detect changed MDX files
         id: changed-files
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '_Astro Out/src/content/docs/**/*.mdx' | tr '\n' ',')
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '_Astro Out/src/content/docs/' | grep '\.mdx$' | tr '\n' ',')
           echo "files=$CHANGED" >> $GITHUB_OUTPUT
           echo "Changed MDX files: $CHANGED"
 
@@ -47,6 +47,7 @@ jobs:
           PALIGO_API_TOKEN: ${{ secrets.PALIGO_API_TOKEN }}
           PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
           CHANGED_FILES:    ${{ steps.changed-files.outputs.files }}
+        working-directory: ${{ github.workspace }}
         run: node .github/scripts/sync.js
 
       # ── 6. Summary ────────────────────────────────────────────────────────
