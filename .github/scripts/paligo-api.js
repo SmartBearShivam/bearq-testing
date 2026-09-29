@@ -10,17 +10,21 @@
 
 const PALIGO_INSTANCE = process.env.PALIGO_INSTANCE;
 const PALIGO_API_TOKEN = process.env.PALIGO_API_TOKEN;
+const PALIGO_USERNAME = process.env.PALIGO_USERNAME;
 
-if (!PALIGO_INSTANCE || !PALIGO_API_TOKEN) {
+if (!PALIGO_INSTANCE || !PALIGO_API_TOKEN || !PALIGO_USERNAME) {
   throw new Error(
-    'Missing required environment variables: PALIGO_INSTANCE and PALIGO_API_TOKEN must both be set.'
+    'Missing required environment variables: PALIGO_INSTANCE, PALIGO_USERNAME and PALIGO_API_TOKEN must all be set.'
   );
 }
 
 const BASE_URL = `https://${PALIGO_INSTANCE}.paligoapp.com/api/v1`;
 
+// Paligo uses HTTP Basic Auth: username (email) + API token
+const basicAuth = Buffer.from(`${PALIGO_USERNAME}:${PALIGO_API_TOKEN}`).toString('base64');
+
 const headers = {
-  'Authorization': `Bearer ${PALIGO_API_TOKEN}`,
+  'Authorization': `Basic ${basicAuth}`,
   'Content-Type': 'application/xml',
   'Accept': 'application/json',
 };

@@ -46,6 +46,7 @@ jobs:
         env:
           PALIGO_API_TOKEN: ${{ secrets.PALIGO_API_TOKEN }}
           PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
+          PALIGO_USERNAME:  ${{ secrets.PALIGO_USERNAME }}
           CHANGED_FILES:    ${{ steps.changed-files.outputs.files }}
         working-directory: ${{ github.workspace }}
         run: node .github/scripts/sync.js
