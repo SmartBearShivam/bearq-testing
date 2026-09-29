@@ -47,6 +47,13 @@ jobs:
           PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
           PALIGO_USERNAME:  ${{ secrets.PALIGO_USERNAME }}
         run: |
+          echo "Secret lengths (safe - values not shown):"
+          echo "  PALIGO_INSTANCE  length: ${#PALIGO_INSTANCE}"
+          echo "  PALIGO_USERNAME  length: ${#PALIGO_USERNAME}"
+          echo "  PALIGO_API_TOKEN length: ${#PALIGO_API_TOKEN}"
+          echo "Instance URL will be: https://${PALIGO_INSTANCE}.paligoapp.com"
+          echo "Username starts with: ${PALIGO_USERNAME:0:3}..."
+          echo ""
           echo "Testing GET https://${PALIGO_INSTANCE}.paligoapp.com/api/v1/documents"
           curl -s -o /tmp/auth_test.json -w "HTTP status: %{http_code}\n" \
             -u "${PALIGO_USERNAME}:${PALIGO_API_TOKEN}" \
