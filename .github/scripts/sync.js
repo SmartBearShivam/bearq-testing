@@ -94,7 +94,7 @@ for (const filePath of changedFiles) {
     await pushToPaligo({
       paligoId,
       xmlContent: docbookXml,
-      label: `Auto-synced from GitHub — ${new Date().toISOString()}`,
+      label: `Auto-synced from GitHub - ${new Date().toISOString()}`,
     });
 
     console.log(`   ✅ Pushed to Paligo successfully.\n`);
