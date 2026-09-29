@@ -1,0 +1,13 @@
+{
+  "name": "paligo-to-astro-migration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Migration engine: convert a Paligo DocBook XML export into Astro Starlight MDX.",
+  "scripts": {
+    "migrate": "node convert.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}

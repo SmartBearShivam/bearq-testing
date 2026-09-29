@@ -1,0 +1,57 @@
+name: Sync BearQ MDX to Paligo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/content/docs/**/*.mdx'
+
+jobs:
+  sync-to-paligo:
+    name: Convert MDX and push to Paligo
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout repo ──────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      # ── 2. Set up Node.js ─────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: .github/scripts/package.json
+
+      # ── 3. Install dependencies ───────────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci
+        working-directory: .github/scripts
+
+      # ── 4. Detect changed MDX files ───────────────────────────────────────
+      - name: Detect changed MDX files
+        id: changed-files
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'src/content/docs/**/*.mdx' | tr '\n' ',')
+          echo "files=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Changed MDX files: $CHANGED"
+
+      # ── 5. Convert and push to Paligo ─────────────────────────────────────
+      - name: Sync to Paligo
+        if: steps.changed-files.outputs.files != ''
+        env:
+          PALIGO_API_TOKEN: ${{ secrets.PALIGO_API_TOKEN }}
+          PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
+          CHANGED_FILES:    ${{ steps.changed-files.outputs.files }}
+        run: node .github/scripts/sync.js
+
+      # ── 6. Summary ────────────────────────────────────────────────────────
+      - name: Write summary
+        if: always()
+        run: |
+          echo "### Paligo Sync" >> $GITHUB_STEP_SUMMARY
+          echo "Files: ${{ steps.changed-files.outputs.files }}" >> $GITHUB_STEP_SUMMARY

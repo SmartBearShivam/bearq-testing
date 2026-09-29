@@ -1,0 +1,14 @@
+{
+  "name": "bearq-paligo-sync-scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "GitHub Action scripts for syncing BearQ MDX docs to Paligo",
+  "scripts": {
+    "test": "node sync.js"
+  },
+  "dependencies": {
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.0"
+  }
+}
