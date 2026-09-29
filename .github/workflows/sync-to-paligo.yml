@@ -40,7 +40,22 @@ jobs:
           echo "files=$CHANGED" >> $GITHUB_OUTPUT
           echo "Changed MDX files: $CHANGED"
 
-      # ── 5. Convert and push to Paligo ─────────────────────────────────────
+      # ── 5. Verify Paligo credentials ─────────────────────────────────────
+      - name: Verify Paligo auth
+        env:
+          PALIGO_API_TOKEN: ${{ secrets.PALIGO_API_TOKEN }}
+          PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
+          PALIGO_USERNAME:  ${{ secrets.PALIGO_USERNAME }}
+        run: |
+          echo "Testing GET https://${PALIGO_INSTANCE}.paligoapp.com/api/v1/documents"
+          curl -s -o /tmp/auth_test.json -w "HTTP status: %{http_code}\n" \
+            -u "${PALIGO_USERNAME}:${PALIGO_API_TOKEN}" \
+            -H "Accept: application/json" \
+            "https://${PALIGO_INSTANCE}.paligoapp.com/api/v1/documents" || true
+          echo "Response body:"
+          cat /tmp/auth_test.json | head -c 500 || true
+
+      # ── 6. Convert and push to Paligo ─────────────────────────────────────
       - name: Sync to Paligo
         if: steps.changed-files.outputs.files != ''
         env:
