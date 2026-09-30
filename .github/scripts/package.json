@@ -7,6 +7,7 @@
     "test": "node sync.js"
   },
   "dependencies": {
+    "playwright": "^1.49.0",
     "remark-gfm": "^4.0.0",
     "remark-parse": "^11.0.0",
     "unified": "^11.0.0"

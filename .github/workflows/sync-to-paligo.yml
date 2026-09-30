@@ -32,7 +32,12 @@ jobs:
         run: npm ci
         working-directory: .github/scripts
 
-      # ── 4. Detect changed MDX files ───────────────────────────────────────
+      # ── 4. Install Playwright browser ─────────────────────────────────────
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+        working-directory: .github/scripts
+
+      # ── 5. Detect changed MDX files ───────────────────────────────────────
       - name: Detect changed MDX files
         id: changed-files
         run: |
@@ -40,40 +45,27 @@ jobs:
           echo "files=$CHANGED" >> $GITHUB_OUTPUT
           echo "Changed MDX files: $CHANGED"
 
-      # ── 5. Verify Paligo credentials ─────────────────────────────────────
-      - name: Verify Paligo auth
-        env:
-          PALIGO_API_TOKEN: ${{ secrets.PALIGO_API_TOKEN }}
-          PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
-          PALIGO_USERNAME:  ${{ secrets.PALIGO_USERNAME }}
-        run: |
-          echo "Secret lengths (safe - values not shown):"
-          echo "  PALIGO_INSTANCE  length: ${#PALIGO_INSTANCE}"
-          echo "  PALIGO_USERNAME  length: ${#PALIGO_USERNAME}"
-          echo "  PALIGO_API_TOKEN length: ${#PALIGO_API_TOKEN}"
-          echo "Instance URL will be: https://${PALIGO_INSTANCE}.paligoapp.com"
-          echo "Username starts with: ${PALIGO_USERNAME:0:3}..."
-          echo ""
-          echo "Testing GET https://${PALIGO_INSTANCE}.paligoapp.com/api/v1/documents"
-          curl -s -o /tmp/auth_test.json -w "HTTP status: %{http_code}\n" \
-            -u "${PALIGO_USERNAME}:${PALIGO_API_TOKEN}" \
-            -H "Accept: application/json" \
-            "https://${PALIGO_INSTANCE}.paligoapp.com/api/v1/documents" || true
-          echo "Response body:"
-          cat /tmp/auth_test.json | head -c 500 || true
-
-      # ── 6. Convert and push to Paligo ─────────────────────────────────────
+      # ── 6. Sync to Paligo via browser ─────────────────────────────────────
       - name: Sync to Paligo
         if: steps.changed-files.outputs.files != ''
         env:
-          PALIGO_API_TOKEN: ${{ secrets.PALIGO_API_TOKEN }}
           PALIGO_INSTANCE:  ${{ secrets.PALIGO_INSTANCE }}
           PALIGO_USERNAME:  ${{ secrets.PALIGO_USERNAME }}
+          PALIGO_PASSWORD:  ${{ secrets.PALIGO_PASSWORD }}
           CHANGED_FILES:    ${{ steps.changed-files.outputs.files }}
         working-directory: ${{ github.workspace }}
-        run: node .github/scripts/sync.js
+        run: node .github/scripts/paligo-browser-sync.js
 
-      # ── 6. Summary ────────────────────────────────────────────────────────
+      # ── 7. Upload screenshots (always, for debugging) ─────────────────────
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paligo-screenshots
+          path: /tmp/paligo-screenshots/
+          if-no-files-found: ignore
+
+      # ── 8. Summary ────────────────────────────────────────────────────────
       - name: Write summary
         if: always()
         run: |
