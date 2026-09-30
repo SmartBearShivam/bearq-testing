@@ -10,7 +10,11 @@ on:
 jobs:
   sync-to-paligo:
     name: Convert MDX and push to Paligo
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        shell: bash   # use Git Bash on Windows self-hosted runner
 
     steps:
       # ── 1. Checkout repo ──────────────────────────────────────────────────
@@ -34,7 +38,7 @@ jobs:
 
       # ── 4. Install Playwright browser ─────────────────────────────────────
       - name: Install Playwright Chromium
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install chromium
         working-directory: .github/scripts
 
       # ── 5. Detect changed MDX files ───────────────────────────────────────
@@ -62,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: paligo-screenshots
-          path: /tmp/paligo-screenshots/
+          path: ${{ runner.temp }}/paligo-screenshots/
           if-no-files-found: ignore
 
       # ── 8. Summary ────────────────────────────────────────────────────────

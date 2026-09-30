@@ -15,6 +15,7 @@
 
 import { chromium } from 'playwright';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { convertMdxToDocbook } from './mdx-to-docbook.js';
 
@@ -24,7 +25,8 @@ const INSTANCE = process.env.PALIGO_INSTANCE;
 const EMAIL    = process.env.PALIGO_USERNAME;
 const PASSWORD = process.env.PALIGO_PASSWORD;
 const BASE_URL = `https://${INSTANCE}.paligoapp.com`;
-const SS_DIR   = '/tmp/paligo-screenshots';
+// Use RUNNER_TEMP (set by GitHub Actions) or os.tmpdir() as fallback
+const SS_DIR   = path.join(process.env.RUNNER_TEMP || os.tmpdir(), 'paligo-screenshots');
 
 if (!INSTANCE || !EMAIL || !PASSWORD) {
   console.error('Missing required env vars: PALIGO_INSTANCE, PALIGO_USERNAME, PALIGO_PASSWORD');
@@ -116,7 +118,7 @@ async function login(page) {
 
 async function syncTopic(page, paligoId, xmlContent, title) {
   // Write XML to a temp file (for file-upload approaches)
-  const xmlFile = `/tmp/topic-${paligoId}.xml`;
+  const xmlFile = path.join(process.env.RUNNER_TEMP || os.tmpdir(), `topic-${paligoId}.xml`);
   fs.writeFileSync(xmlFile, xmlContent, 'utf8');
 
   console.log(`\n   Navigating to topic ${paligoId}...`);
