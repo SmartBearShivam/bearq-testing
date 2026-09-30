@@ -77,16 +77,20 @@ async function login(page) {
     await shot(page, '03-sso-after-submit');
   } else {
     // Standard Paligo login form
-    const emailSel = page.locator('input[type="email"], input[name="email"], input[name="username"], #email, #username').first();
-    const passSel  = page.locator('input[type="password"], input[name="password"], #password').first();
+    // Paligo uses text inputs with placeholder text, not type="email"
+    const emailSel = page.locator(
+      'input[placeholder*="example.com"], input[placeholder*="email"], input[placeholder*="username"], ' +
+      'input[type="email"], input[name="email"], input[name="username"], #email, #username'
+    ).first();
+    const passSel = page.locator('input[type="password"], input[placeholder*="password"], input[placeholder*="Password"]').first();
 
-    await emailSel.waitFor({ timeout: 10000 });
+    await emailSel.waitFor({ timeout: 15000 });
     await emailSel.fill(EMAIL);
     await passSel.fill(PASSWORD);
     await shot(page, '02-filled-login');
 
-    // Click submit or press Enter
-    const submitBtn = page.locator('button[type="submit"], input[type="submit"], button:has-text("Sign in"), button:has-text("Log in")').first();
+    // Click "Sign in" button
+    const submitBtn = page.locator('button:has-text("Sign in"), button:has-text("Log in"), button[type="submit"], input[type="submit"]').first();
     if (await submitBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
       await submitBtn.click();
     } else {
